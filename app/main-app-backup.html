@@ -1,0 +1,180 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+
+<!-- Import Custom Web Components -->
+<link rel="import" href="history-development-section.html">
+<link rel="import" href="aquaponics-explained-section.html">
+<link rel="import" href="how-it-works-section.html">
+<link rel="import" href="systems-overview-section.html">
+<link rel="import" href="sensor-readings-section.html">
+<link rel="import" href="image-section.html">
+<link rel="import" href="future-projects-section.html">
+<link rel="import" href="contact-us-section.html">
+<link rel="import" href="login-form.html">
+
+<!-- Import Typography -->
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:light,regular,medium,thin,italic,mediumitalic,bold" title="roboto">
+<link href="https://fonts.googleapis.com/css?family=Scope+One&subset=latin-ext" rel="stylesheet">
+
+<dom-module id="main-app">
+    <!-- Import Shared Stylesheet -->
+    <link rel="import" type="css" href="style.css">
+    <template>
+        <style is="custom-style">
+            :root {
+                --primary-theme-color: #00BFA5;
+                --secondary-theme-color: #607D8B;
+                --tertiary-theme-color: rgba(21, 142, 29, 0.78);
+                --primary-theme-text-color: white;
+                --paper-toolbar-background: var(--primary-theme-color);
+            }
+
+            #drawer {
+                font-family: 'Roboto', sans-serif;
+            }
+
+            #navTitle {
+                margin-right: auto;
+            }
+
+            #hero {
+                background-image:
+                        url("https://res.cloudinary.com/ut-aquaponics/image/upload/q_30/v1470500418/hero_2_tsl3hw.jpg");
+                background-size: cover;
+                height: 91vh;
+                justify-content: flex-start;
+                text-align: center;
+            }
+
+            #heroTitle {
+                font-size:10vh;
+                color: var(--primary-theme-text-color);
+                text-shadow: 3px 3px #263238;
+                font-weight: 300;
+                text-align: center;
+                text-indent: 0;
+                line-height: 1;
+            }
+
+            @media (min-width:1025px) {
+                /* big landscape tablets, laptops, and desktops */
+                p {
+                    font-size: 12vh;
+                }
+            }
+
+            #heroButton {
+                color: var(--primary-theme-text-color);
+                background-color: var(--primary-theme-color);
+                align-self: center;
+                font-size: 2.5vh;
+            }
+
+            #heroButton a {
+                color: var(--primary-theme-text-color);
+            }
+
+            #login {
+                display: flex;
+                flex-direction: column;
+            }
+
+            paper-toolbar {
+                font-size: 14pt;
+            }
+
+        </style>
+        <paper-drawer-panel id="drawer">
+            <paper-header-panel drawer>
+                <paper-toolbar><div>Explore</div></paper-toolbar>
+                <paper-listbox on-iron-select="navSelect">
+                    <paper-item data-section="history">History & Development</paper-item>
+                    <paper-item data-section="explained">Aquaponics Explained</paper-item>
+                    <paper-item data-section="howItWorks">How It Works</paper-item>
+                    <paper-item data-section="systems">Systems Overview</paper-item>
+                    <paper-item data-section="readings">Sensor Readings</paper-item>
+                    <paper-item data-section="image">Images</paper-item>
+                    <paper-item data-section="future">Future Projects</paper-item>
+                    <paper-item data-section="contact">Contact Us</paper-item>
+                </paper-listbox>
+                <paper-item on-tap="login">Login</paper-item>
+            </paper-header-panel>
+            <paper-header-panel main>
+                <paper-toolbar>
+                    <div id="navTitle">UT Aquaponics</div>
+                    <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                </paper-toolbar>
+                <header id="hero">
+                    <p id="heroTitle">Engineering a Sustainable Food Supply</p>
+                    <paper-button raised id="heroButton" on-tap="navSelect" data-section="history">
+                        Get to Know Us
+                    </paper-button>
+                </header>
+                <section id="history">
+                    <history-development-section></history-development-section>
+                </section>
+                <section id="explained">
+                    <aquaponics-explained-section></aquaponics-explained-section>
+                </section>
+                <section id="howItWorks">
+                    <how-it-works-section></how-it-works-section>
+                </section>
+                <paper-card id="systems">
+                    <systems-overview-section></systems-overview-section>
+                </paper-card>
+                <section id="readings">
+                    <sensor-readings-section></sensor-readings-section>
+                </section>
+                <paper-card id="image">
+                    <image-section></image-section>
+                </paper-card>
+                <section id="future">
+                    <future-projects-section></future-projects-section>
+                </section>
+                <footer id="contact">
+                    <contact-us-section></contact-us-section>
+                </footer>
+                <paper-dialog id="login">
+                    <login-form></login-form>
+                </paper-dialog>
+            </paper-header-panel>
+        </paper-drawer-panel>
+    </template>
+    <script>
+        Polymer({
+            is: 'main-app',
+            ready: function() {
+                this.$.drawer.forceNarrow = true;
+                this.$.drawer.rightDrawer = true;
+                this.$.drawer.disableEdgeSwipe = true;
+            },
+            navSelect: function(e) {
+                var targetSection = "";
+                if (e.detail.item != null) {
+                    targetSection = e.detail.item.getAttribute('data-section');
+                } else {
+                    targetSection = e.target.getAttribute('data-section');
+                }
+                document.body.querySelector('main-app').shadowRoot.querySelector('#' + targetSection).scrollIntoView();
+            },
+            login: function(e) {
+                e.target.parentNode.parentNode.closeDrawer();
+                var login = document.body.querySelector('main-app').shadowRoot.querySelector('#login');
+                login.toggle();
+            }
+        })
+    </script>
+</dom-module>

@@ -1,0 +1,177 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<!-- Import Custom Web Components -->
+<link rel="import" href="image-gallery.html">
+
+<dom-module id="image-section">
+    <!-- Import Shared Stylesheet -->
+    <link rel="import" type="css" href="style.css">
+    <template>
+        <style>
+            #image {
+                background-color: #00BFA5
+            }
+
+            #image-search {
+                display: flex;
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+
+            #search-menu-button {
+                height: 100%;
+                width: 50px;
+                border-radius: 50%;
+                background-color: rgba(0, 191, 165, 0.16);
+                color: white;
+            }
+
+            #search-menu-button:hover {
+                background-color: #00BFA5;
+            }
+
+            #searchBar {
+                width:100%;
+            }
+
+            paper-material {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            paper-material h5 {
+                padding-right: 20px;
+            }
+
+            paper-material paper-checkbox {
+                padding-right: 10px;
+            }
+
+            paper-slider {
+                width: 85%;
+            }
+        </style>
+        <form is="iron-form" id="image-search" method="get">
+            <paper-input id="searchBar" name="tags" placeholder="search for images of UT Aquaponics using keywords"
+                         maxlength="100" on-change="search"></paper-input>
+            <paper-icon-button id="search-menu-button" on-click="toggleSearchMenu" icon="icons:toc"></paper-icon-button>
+            <paper-dialog opened="{{searchMenuHidden}}">
+                <paper-material>
+                    <h5>Semester</h5>
+                    <paper-checkbox id="springSemesterCheckbox">Spring</paper-checkbox>
+                    <paper-checkbox id="fallSemesterCheckbox">Fall</paper-checkbox>
+                </paper-material>
+                <paper-material>
+                    <h5>System</h5>
+                    <paper-checkbox id="mediaBedCheckbox">Media Bed</paper-checkbox>
+                    <paper-checkbox id="floatingRaftCheckbox">Floating Raft</paper-checkbox>
+                </paper-material>
+                <paper-material>
+                    <h5>Year</h5>
+                    <paper-slider id="yearSlider" min="2016" max="2017" value="2016" step="1" snaps="true" name="year" pin></paper-slider>
+                </paper-material>
+                <paper-button on-click="clearSearchMenu">Clear All</paper-button>
+                <paper-button on-click="applySearchFilters">Apply Filters</paper-button>
+            </paper-dialog>
+        </form>
+        <image-gallery id="gallery"></image-gallery>
+    </template>
+    <script>
+        Polymer({
+            is: "image-section",
+            properties: {
+                searchMenuHidden: {
+                    type: Boolean,
+                    value: false
+                }
+            },
+            search: function(e) {
+                Polymer.dom(this.shadowRoot).querySelector('#image-search').submit();
+            },
+
+            toggleSearchMenu: function(e) {
+                this.searchMenuHidden = !this.searchMenuHidden;
+            },
+
+            ready: function() {
+                var gallery = this.$.gallery;
+                var XHR = new XMLHttpRequest();
+                XHR.onreadystatechange = function() {
+                    if (XHR.readyState == XMLHttpRequest.DONE) {
+                        var response = XHR.responseText;
+                        var images = JSON.parse(response);
+                        if (images.length > 0) {
+                            for (var i in images) {
+                                var link = document.createElement('img');
+                                link.setAttribute('src', images[i].secure_url);
+                                gallery.appendChild(link);
+                            }
+                        }
+                    }
+                };
+                XHR.open('get', '/api/images', true);
+                XHR.send();
+            },
+
+            clearSearchMenu: function() {
+                Polymer.dom(this.shadowRoot).querySelector('#springSemesterCheckbox').checked = false;
+                Polymer.dom(this.shadowRoot).querySelector('#fallSemesterCheckbox').checked = false;
+                Polymer.dom(this.shadowRoot).querySelector('#mediaBedCheckbox').checked = false;
+                Polymer.dom(this.shadowRoot).querySelector('#floatingRaftCheckbox').checked = false;
+                Polymer.dom(this.shadowRoot).querySelector('#fallSemesterCheckbox').checked = false;
+                Polymer.dom(this.shadowRoot).querySelector('#yearSlider').value = 2016;
+            },
+
+            applySearchFilters: function(e) {
+                var form = e.target.parentNode.parentNode;
+                var tags = form.querySelector('#searchBar').value.split(' ');
+                var filters = form.querySelector('paper-dialog');
+                var springSemester = filters.querySelector('#springSemesterCheckbox').checked;
+                var fallSemester = filters.querySelector('#springSemesterCheckbox').checked;
+                var mediaBed = filters.querySelector('#mediaBedCheckbox').checked;
+                var floatingRaft = filters.querySelector('#floatingRaftCheckbox').checked;
+                var year = filters.querySelector('#yearSlider').value;
+                var formData = new FormData();
+                formData.append('tags', tags);
+                if (springSemester && !fallSemester) {
+                    formData.append('semester', 'spring');
+                } else if (fallSemester && !springSemester) {
+                    formData.append('semester', 'fall');
+                } else {
+                    formData.append('semester', 'both');
+                }
+                if (mediaBed && !floatingRaft) {
+                    formData.append('system', 'media bed');
+                } else if (floatingRaft && !mediaBed) {
+                    formData.append('system', 'floating raft');
+                } else {
+                    formData.append('system', 'both');
+                }
+                formData.append('year', year);
+                var XHR = new XMLHttpRequest();
+                XHR.onreadystatechange = function() {
+                    if (XHR.readyState == XMLHttpRequest.DONE) {
+                        var response = XHR.responseText;
+                        var images = JSON.parse(response);
+                        alert(response);
+                    }
+                };
+                XHR.open('post', '/api/images/search', true);
+                XHR.send(formData);
+            }
+        })
+    </script>
+</dom-module>

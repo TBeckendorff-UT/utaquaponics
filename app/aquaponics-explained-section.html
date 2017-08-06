@@ -1,0 +1,71 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+
+<dom-module id="aquaponics-explained-section">
+    <!-- Import Shared Stylesheet -->
+    <link rel="import" type="css" href="style.css">
+    <template>
+        <style>
+            #aqex-title {
+                background-image: url("https://res.cloudinary.com/ut-aquaponics/image/upload/v1486231657/Aquaponics_Explained-min_fysgfp.jpg");
+                height: 55vh;
+                font-size: 7vh;
+                color: white;
+                font-family: 'Roboto';
+                text-shadow: 3px 3px #263238;
+                font-weight: 300;
+                background-size: cover;
+                display: flex;
+                vertical-align: top;
+                flex-direction: column;
+                justify-content: center;
+                direction: rtl;
+                text-indent: 5vw;
+                text-align: right;
+            }
+            #aqex-pg {
+                margin-top: 8vh;
+            }
+        </style>
+        <div id="aqex-title" class="section-title">Aquaponics Explained</div>
+        <div id="aqex-pg" class="section-paragraph">
+            <p>
+                Aquaponics is the combination of hydroponics (the cultivation of plants in water)
+                and aquaculture (the raising of fish in tanks).
+                <sup id="aquaponics-explained-citation-1">
+                    <a href="http://www.theaquaponicsource.com/what-is-aquaponics/">1</a>
+                </sup>
+                Aquaponics is a modern agricultural system design based on old methods of sustainable farming, some of
+                which date back to the early 12th Century and the Aztecs.
+                <sup id="aquaponics-explained-citation-2">
+                    <a href="http://www.theaquaponicsource.com/what-is-aquaponics/">1</a>
+                </sup>
+                The aquaponics system is closed-loop and very few inputs are needed to maintain it. Fish food,
+                electricity for the pump, and an occasional refill of water that was lost by evaporation, are all that
+                are needed to keep an established system running. Aquaponics also does not require land use as the
+                process can be done inside and requires much less water than standard agricultural practices.
+                <sup id="aquaponics-explained-citation-3">
+                    <a href="http://www.backyardaquaponics.com/guide-to-aquaponics/what-is-aquaponics/">2</a>
+                </sup>
+                The final product is both fish and plants, making it one of the most efficient and sustainable
+                methods of food production today.
+            </p>
+        </div>
+        <paper-tooltip for="aquaponics-explained-citation-1" position="top" animationDelay="0">"What Is Aquaponics."
+            The Aquaponic Source. N.p., n.d. Web. 15 July 2016.</paper-tooltip>
+        <paper-tooltip for="aquaponics-explained-citation-2" position="top" animationDelay="0">
+            "What Is Aquaponics." The Aquaponic Source. N.p., n.d. Web. 15 July 2016.
+        </paper-tooltip>
+        <paper-tooltip for="aquaponics-explained-citation-3" position="top" animationDelay="0">
+            "What Is Aquaponics?" Backyard Aquaponics. N.p., 2012. Web. 15 July 2016.
+        </paper-tooltip>
+    </template>
+    <script>
+        Polymer({
+            is: "aquaponics-explained-section"
+        })
+    </script>
+</dom-module>

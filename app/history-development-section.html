@@ -1,0 +1,64 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Components -->
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+
+<dom-module id="history-development-section">
+    <!-- Import Shared Stylesheet -->
+    <link rel="import" type="css" href="style.css">
+    <template>
+        <style>
+            #hd-title {
+                background-image: url("https://res.cloudinary.com/ut-aquaponics/image/upload/v1486231658/History_Development-min_ww00ri.jpg");
+                height: 55vh;
+                text-align: center;
+                font-size: 7vh;
+                color: white;
+                font-family: 'Roboto';
+                text-shadow: 3px 3px #263238;
+                font-weight: 300;
+                background-size: cover;
+                display: flex;
+                vertical-align: middle;
+                flex-direction: column;
+                justify-content: center;
+            }
+            #hd-pg {
+                margin-top: 8vh;
+            }
+        </style>
+        <div id="hd-title" class="section-title">History & Development</div>
+        <div id="hd-pg" class="section-paragraph">
+            <p>
+                UT Aquaponics started in Fall 2014 when two members of
+                <a href="https://www.facebook.com/The-Engineers-for-a-Sustainable-World-University-of-Texas-at-Austin-Chapter-388428151204053/">Engineers for a Sustainable World (ESW)</a>
+                , Nicholas Phillips and Alina Dale Lapotin submitted a proposal to the
+                <a href="https://sustainability.utexas.edu/greenfee.php">Green Fee Committee</a>
+                for permission and funding to build an aquaponics system. They wanted the system to include sensors that
+                could monitor key parameters and alert the system operator when something needs fixing. For example, the
+                system should be designed to alert when the pH is too low, or if the water is too high. The goal of this
+                project was to educate the UT community about the technology of aquaponics by letting students work
+                collaboratively to design, build, and operate an aquaponics system.
+            </p>
+            <p>
+                In Fall 2015, a small team of students from ESW started gathering materials and finalizing the
+                design of the system. With the help of faculty adviser Delia Brownson, they found a home for UT
+                Aquaponics in the painter greenhouse, and decided to build two different types of systems: a
+                floating raft system and a media bed system. Now, after nearly one year of work, the media bed
+                system is home to 10 happy goldfish and a thriving crop of chard, and the floating raft system
+                has been completely assembled and will begin producing Summer 2016. On May 5, 2014, UT
+                Aquaponics sold their first harvest of chard at the
+                <a href="https://utmicrofarm.wordpress.com/">UT Farm Stand</a>
+                , and starting in Fall 2016 the systems will be featured as a part of the
+                <a href="http://www.utgreentours.com/signups.html">UT Green Tour</a>
+                .
+            </p>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: "history-development-section"
+        })
+    </script>
+</dom-module>

@@ -1,0 +1,36 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+
+<dom-module id="plot-card">
+    <style>
+        #plotTitle {
+            color: teal;
+        }
+        #plotAverage {
+            font-size:64px;
+            margin: 0px;
+        }
+    </style>
+    <template>
+        <paper-card>
+            <content id="plot"></content>
+            <div class="card-content">
+                <h3 id="plotTitle"></h3>
+                <h1 id="plotAverage"></h1>
+            </div>
+        </paper-card>
+    </template>
+    <script>
+        Polymer({
+            is: 'plot-card',
+            attributeChanged: function(name, type) {
+                if (name === 'plottitle') {
+                    this.$.plotTitle.textContent = this.getAttribute(name);
+                } else if (name === 'plotaverage') {
+                    this.$.plotAverage.textContent = this.getAttribute(name);
+                }
+            }
+
+        });
+    </script>
+</dom-module>

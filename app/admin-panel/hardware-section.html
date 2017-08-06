@@ -1,0 +1,59 @@
+<!-- Import Polymer -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+
+<!-- Import Custom Web Components -->
+<link rel="import" href="hardware-card.html">
+
+<dom-module id="hardware-section">
+    <template>
+        <style is="custom-style">
+            #container {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-top: 5vh;
+                margin-left: 5%;
+                margin-right: 5%;
+            }
+        </style>
+
+        <div id="container">
+
+        </div>
+    </template>
+    <script>
+        function appendSensorCard(sensor, container) {
+            var hardwareCard = document.createElement('hardware-card');
+            hardwareCard.setAttribute('data', JSON.stringify(sensor));
+            container.appendChild(hardwareCard);
+        }
+
+        Polymer({
+            is: "hardware-section",
+            ready: function() {
+                var container = this.$.container;
+                var XHR = new XMLHttpRequest();
+                XHR.open('get', '/api/sensors', true);
+                XHR.onreadystatechange = function() {
+                    if (XHR.readyState == XMLHttpRequest.DONE) {
+                        var result = JSON.parse(XHR.responseText);
+                        if (result.response != null) {
+                            var sensors = result.response.data;
+                            for (var i in sensors) {
+                                var sensor = sensors[i];
+                                appendSensorCard(sensor, container);
+                            }
+                        } else {
+                            console.log(result.error.message);
+                        }
+                    }
+                };
+                XHR.send();
+            }
+        })
+    </script>
+</dom-module>

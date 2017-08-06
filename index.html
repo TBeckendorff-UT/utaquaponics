@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>UT Aquaponics | Engineering a Sustainable Food Supply</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <meta name="description"
+          content="UT Aquaponics is utilizing real-time embedded sensor data to develop a sustainable,
+          autonomous aquaponics system. A member organization of Engineers for A Sustainable World.">
+    <script>
+        // setup Polymer options
+        window.Polymer = {lazyRegister: true, dom: 'shadow'};
+
+        // load webcomponents polyfills
+        (function() {
+            if ('registerElement' in document
+                    && 'import' in document.createElement('link')
+                    && 'content' in document.createElement('template')) {
+                // browser has web components
+            } else {
+                // polyfill web components
+                var e = document.createElement('script');
+                e.src = '/bower_components/webcomponentsjs/webcomponents.min.js';
+                document.head.appendChild(e);
+            }
+        })();
+    </script>
+    <link rel="import" href="/app/main-app.html">
+    </head>
+    <body class="fullbleed layout vertical" unresolved>
+        <main-app></main-app>
+    </body>
+</html>

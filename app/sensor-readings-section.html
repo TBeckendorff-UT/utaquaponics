@@ -1,0 +1,114 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>
+
+<!-- Import Custom Web Components -->
+<link rel="import" href="plot-card.html">
+
+<dom-module id="sensor-readings-section">
+    <!-- Import Shared Stylesheet -->
+    <link rel="import" type="css" href="style.css">
+    <style>
+        plot-card {
+            margin:20px;
+        }
+
+        #plots {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+            align-self: center;
+            margin: 0;
+        }
+
+        #title {
+            text-align: center;
+        }
+    </style>
+    <template>
+        <h3 id="title">Real-Time Sensor Data | Preview</h3>
+        <section id="plots"></section>
+    </template>
+    <script>
+        function getSensorReadings(sensorID, callback) {
+
+        }
+
+        function getAverageReadingValue(readingsTotalValue, numReadings) {
+            return (readingsTotalValue / numReadings).toFixed(2);
+        }
+
+        function appendSensorPlot(sensor, plots) {
+            var sensorID = sensor._id;
+            var plotTitle = sensor.plot_title;
+            var readingUnits = sensor.reading_units;
+            var readingMeasurement = sensor.reading_measurement;
+
+            var XHR = new XMLHttpRequest();
+            XHR.open('get', '/api/readings/sensor/' + sensorID, true);
+            XHR.onreadystatechange = function () {
+                if (XHR.readyState == XMLHttpRequest.DONE) {
+                    var result = JSON.parse(XHR.responseText);
+                    if (result.response != null) {
+                        var readings = result.response.data;
+                        var dataset = [];
+                        var readingsTotalValue = 0;
+                        var numReadings = readings.length;
+                        for (var i in readings) {
+                            var timestamp = new Date(readings[i].timestamp);
+                            var value = readings[i].value;
+                            readingsTotalValue += value;
+                            dataset.push([timestamp, value]);
+                        }
+                        var readingsAverageValue = getAverageReadingValue(readingsTotalValue, numReadings);
+                        var plotContainer = document.createElement('div');
+                        var plot = new Dygraph(
+                                plotContainer,
+                                dataset,
+                                {
+                                    height: 400,
+                                    width: 480,
+                                    ylabel: readingMeasurement
+                                }
+                        );
+                        var plotCard = document.createElement('plot-card');
+                        plotCard.setAttribute('plotTitle', plotTitle);
+                        plotCard.setAttribute('plotAverage', readingsAverageValue + " " + readingUnits);
+                        plotCard.appendChild(plotContainer);
+                        plots.appendChild(plotCard);
+                    } else {
+                        console.log(result.error);
+                    }
+                }
+            };
+            XHR.send();
+        }
+
+        Polymer({
+            is: 'sensor-readings-section',
+            ready: function(e) {
+                var plots = this.$.plots;
+                var XHR = new XMLHttpRequest();
+                XHR.open('get', '/api/sensors', true);
+                XHR.onreadystatechange = function() {
+                    if (XHR.readyState == XMLHttpRequest.DONE) {
+                        var result = JSON.parse(XHR.responseText);
+                        if (result.response != null) {
+                            var sensors = result.response.data;
+                            for (var i in sensors) {
+                                var sensor = sensors[i];
+                                appendSensorPlot(sensor, plots);
+                            }
+                        } else {
+                            console.log(result.error.message);
+                        }
+                    }
+                };
+                XHR.send();
+            }
+        });
+    </script>
+</dom-module>

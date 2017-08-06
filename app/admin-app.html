@@ -1,0 +1,171 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/iron-icons/hardware-icons.html">
+<link rel="import" href="../bower_components/iron-icons/image-icons.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<!-- Import Custom Web Components -->
+<link rel="import" href="admin-panel/image-upload.html">
+<link rel="import" href="admin-panel/hardware-section.html">
+
+<dom-module id="admin-app">
+    <style is="custom-style">
+        :host {
+            --primary-theme-color: #00BFA5;
+            --secondary-theme-color: #607D8B;
+            --tertiary-theme-color: rgba(21, 142, 29, 0.78);
+            --primary-theme-text-color: white;
+            --paper-toolbar-background: var(--primary-theme-color);
+
+            --paper-card-header-image: {
+                height: 200px;
+            };
+
+            --paper-card-header: {
+                height:200px;
+            };
+
+            --paper-card-header-color: #37474f;
+
+            --paper-card-header-text: {
+                font-size: 32px;
+            }
+        }
+        paper-drawer-panel {
+            --paper-drawer-panel-main-container: {
+                background-color: white;
+            };
+        }
+        paper-drawer-panel {
+            --paper-drawer-panel-left-drawer-container: {
+                background-color: white;
+            };
+        }
+
+        paper-listbox {
+            margin-left: -50px;
+        }
+
+        #sign-out {
+            margin-left: -50px;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #image-upload {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #navTitle {
+            margin-right: auto;
+        }
+
+    </style>
+    <template>
+        <paper-drawer-panel id="drawer">
+            <paper-header-panel drawer>
+                <paper-toolbar></paper-toolbar>
+                <paper-listbox selected="{{panel}}" on-iron-select="panelSelect">
+                    <paper-icon-item>
+                        <iron-icon icon="icons:dashboard"></iron-icon>
+                        Dashboard
+                    </paper-icon-item>
+                    <paper-icon-item>
+                        <iron-icon icon="image:add-a-photo"></iron-icon>
+                        Upload Images
+                    </paper-icon-item>
+                    <paper-icon-item>
+                        <iron-icon icon="hardware:memory"></iron-icon>
+                        Hardware
+                    </paper-icon-item>
+                    <paper-icon-item>
+                        <iron-icon icon="icons:timeline"></iron-icon>
+                        Google Analytics
+                    </paper-icon-item>
+                </paper-listbox>
+                <paper-icon-item id="sign-out" on-tap="signOut">
+                    <iron-icon icon="icons:close"></iron-icon>
+                    Sign Out
+                </paper-icon-item>
+            </paper-header-panel>
+            <paper-header-panel main>
+                <paper-toolbar>
+                    <div id="navTitle">UTAquaponics AdminPanel</div>
+                    <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                </paper-toolbar>
+                <iron-pages selected="{{panel}}">
+                    <section id="dashboard">Dashboard</section>
+                    <image-upload id="image-upload"></image-upload>
+                    <hardware-section id="hardware">Hardware</hardware-section>
+                    <section id="google-analytics">Google Analytics</section>
+                </iron-pages>
+            </paper-header-panel>
+        </paper-drawer-panel>
+    </template>
+    <script>
+        Polymer({
+            is:'admin-app',
+            ready: function() {
+                this.$.drawer.forceNarrow = true;
+                this.$.drawer.rightDrawer = true;
+                this.$.drawer.disableEdgeSwipe = true;
+            },
+            panelSelect: function(e) {
+                if (screen.width <= 425) {
+                    e.target.parentNode.parentNode.selected="main";
+                }
+            },
+            signOut: function(e) {
+                var XHR = new XMLHttpRequest();
+                XHR.onreadystatechange = function() {
+                    if (XHR.readyState == XMLHttpRequest.DONE) {
+                        var result = JSON.parse(XHR.responseText);
+                        if (result.response != null) {
+                            window.location.href = '/';
+                        }
+                    }
+                };
+                XHR.open('post', '/api/logout', true);
+                XHR.send();
+            },
+            submitImageUpload: function(e) {
+                var form = e.target.parentNode;
+                var tagsInput = form.querySelector('#tagsInput');
+                var fileInput = form.querySelector('#fileInput');
+                var semesterRadioGroup = form.querySelector('#semester');
+                var systemRadioGroup = form.querySelector('#system');
+                var yearSlider = form.querySelector('#yearSlider');
+                var formData = new FormData();
+                formData.append('tags', tagsInput.value);
+                formData.append('file', fileInput.inputElement.files[0]);
+                formData.append('semester', semesterRadioGroup.selected);
+                formData.append('system', systemRadioGroup.selected);
+                formData.append('year', yearSlider.value);
+                var XHR = new XMLHttpRequest();
+                XHR.open('post', '/api/images', true);
+                XHR.send(formData);
+            },
+            properties: {
+                panel: {
+                    type: Number,
+                    value: 0,
+                    alert: true
+                }
+            }
+        });
+    </script>
+</dom-module>

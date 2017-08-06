@@ -1,0 +1,61 @@
+<!-- Import Polymer -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<!-- Import Typography -->
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:light,regular,medium,thin,italic,mediumitalic,bold" title="roboto">
+<link href="https://fonts.googleapis.com/css?family=Scope+One&subset=latin-ext" rel="stylesheet">
+
+<dom-module id="page-not-found">
+    <style is="custom-style">
+        :root {
+            --primary-theme-color: #00BFA5;
+            --secondary-theme-color: #607D8B;
+            --tertiary-theme-color: rgba(21, 142, 29, 0.78);
+            --primary-theme-text-color: white;
+            --paper-toolbar-background: var(--primary-theme-color);
+        }
+
+        paper-header-panel {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        #container {
+            font-family: 'Roboto', sans-serif;
+            margin-top: 10%;
+            text-align: center;
+        }
+
+        #refresh {
+            margin-left: auto;
+        }
+    </style>
+    <template>
+        <paper-header-panel>
+            <paper-toolbar>
+                <div id="navTitle">UT Aquaponics</div>
+                <paper-icon-button id="refresh" icon="icons:refresh" on-tap="redirect"></paper-icon-button>
+            </paper-toolbar>
+        </paper-header-panel>
+        <div id="container">
+            <h1>Well, this is awkward!</h1>
+            <h2>It looks like we couldn't find the page you were looking for.</h2>
+            <p>Need additional help or notice a bug?</p>
+            <p>Send an email to our webmaster at: [insert email address here].</p>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'page-not-found',
+            redirect: function(e) {
+                window.location = "/";
+            }
+        })
+    </script>
+</dom-module>

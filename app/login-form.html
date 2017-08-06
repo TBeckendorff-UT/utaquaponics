@@ -1,0 +1,47 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="login-form">
+    <template>
+        <style>
+            #submit {
+                background-color: #00BFA5;
+                margin-left: 25%;
+                margin-right: 25%;
+                margin-top: 20px;
+                color: white;
+            }
+        </style>
+        <form is="iron-form" id="form" method="post" action="/api/login"
+              on-iron-form-response="loginResponse" handle-as="html">
+            <h2>Login</h2>
+            <paper-input id="username" label="username" name="username" required auto-validate></paper-input>
+            <paper-input id="password" label="password" type="password" name="password" required
+                         auto-validate></paper-input>
+            <paper-button id="submit" on-click="submitLogin">submit</paper-button>
+        </form>
+    </template>
+    <script>
+        Polymer({
+            is: "login-form",
+            ready: function() {
+                var form = Polymer.dom(this.root).querySelector('#form');
+                form.request.handleAs = 'text/html';
+            },
+            submitLogin: function (e) {
+                e.target.parentNode.submit();
+            },
+            loginResponse: function (e) {
+                var response = e.detail.response;
+                document.open("text/html", "replace");
+                document.write(response);
+                document.close();
+            }
+        })
+    </script>
+</dom-module>

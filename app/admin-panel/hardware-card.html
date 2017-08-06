@@ -1,0 +1,95 @@
+<!-- Import Polymer -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
+<dom-module id="hardware-card">
+    <template>
+        <style is="custom-style">
+            :host {
+                --paper-card-header: {
+                    height:50px;
+                    padding: 20px;
+                    background-color: #00BFA5;
+                    text-align: center;
+                };
+                --paper-card-header-text: {
+                    font-size: 24px;
+                    color: white;
+                };
+            }
+            paper-material {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            #card {
+                margin:20px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            p {
+                margin: 10px;
+                max-width: 15vw;
+                text-align: center;
+            }
+        </style>
+        <paper-card id="card">
+            <content></content>
+            <div class="card-content">
+                <paper-material>
+                    <p>name</p>
+                    <p id="sensorName"></p>
+                </paper-material>
+                <paper-material>
+                    <p>id</p>
+                    <p id="sensorID"></p>
+                </paper-material>
+                <paper-material>
+                    <p>description</p>
+                    <p id="description"></p>
+                </paper-material>
+                <paper-material>
+                    <p>reading measurement</p>
+                    <p id="readingMeasurement"></p>
+                </paper-material>
+                <paper-material>
+                    <p>reading units</p>
+                    <p id="readingUnits"></p>
+                </paper-material>
+                <paper-material>
+                    <p>serial number</p>
+                    <p id="serialNumber"></p>
+                </paper-material>
+                <paper-material>
+                    <p>last reading</p>
+                    <p id="lastReading"></p>
+                </paper-material>
+            </div>
+        </paper-card>
+    </template>
+    <script>
+        Polymer({
+            is: "hardware-card",
+            attributeChanged: function(name, type) {
+                if (name === 'data') {
+                    var data = JSON.parse(this.getAttribute(name));
+                    console.log(data);
+                    this.$.card.setAttribute('heading', data.plot_title);
+                    this.$.sensorName.textContent = data.sensor_name;
+                    this.$.sensorID.textContent = data._id;
+                    this.$.description.textContent = data.description;
+                    this.$.readingMeasurement.textContent = data.reading_measurement;
+                    this.$.readingUnits.textContent = data.reading_units;
+                    this.$.serialNumber.textContent = data.serial_number;
+                    this.$.lastReading.textContent = data.last_reading;
+                }
+            }
+        })
+    </script>
+</dom-module>

@@ -1,0 +1,53 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+
+<!-- Import Custom Polymer Elements -->
+<link rel="import" href="floating-raft-section.html">
+<link rel="import" href="media-bed-section.html">
+
+<dom-module id="systems-overview-section">
+    <!-- Import Shared Stylesheet -->
+    <link rel="import" type="css" href="style.css">
+    <template>
+        <style>
+            :root {
+                --paper-toolbar-background: #00BFA5;
+            }
+            paper-toolbar {
+                justify-content: center;
+                display: flex;
+                margin-bottom: 0;
+            }
+            paper-tabs {
+                width: 65vw;
+            }
+        </style>
+        <paper-toolbar id="toolbar">
+            <paper-tabs id="how-it-works-tabs" attr-for-selected="data-route" selected="{{tab}}">
+                <paper-tab data-route="floating-raft">Floating Raft</paper-tab>
+                <paper-tab data-route="media-bed">Media Bed</paper-tab>
+            </paper-tabs>
+        </paper-toolbar>
+        <iron-pages attr-for-selected="data-route" selected="{{tab}}">
+            <floating-raft-section data-route="floating-raft"></floating-raft-section>
+            <media-bed-section data-route="media-bed"></media-bed-section>
+        </iron-pages>
+    </template>
+    <script>
+        Polymer({
+            is: "systems-overview-section",
+            tab: {
+                type: String
+            },
+            ready: function() {
+                this.tab = 'floating-raft'
+            }
+        })
+    </script>
+</dom-module>

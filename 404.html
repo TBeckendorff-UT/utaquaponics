@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>404</title>
+        <script>
+            // setup Polymer options
+            window.Polymer = {lazyRegister: true, dom: 'shadow'};
+
+            // load webcomponents polyfills
+            (function() {
+                if ('registerElement' in document
+                        && 'import' in document.createElement('link')
+                        && 'content' in document.createElement('template')) {
+                    // browser has web components
+                } else {
+                    // polyfill web components
+                    var e = document.createElement('script');
+                    e.src = '/bower_components/webcomponentsjs/webcomponents.min.js';
+                    document.head.appendChild(e);
+                }
+            })();
+        </script>
+        <link rel="import" href="/app/page-not-found/page-not-found.html">
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body class="fullbleed layout vertical" unresolved>
+        <page-not-found></page-not-found>
+    </body>
+</html>

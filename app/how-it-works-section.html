@@ -1,0 +1,72 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+
+<!-- Import Shared Stylesheet -->
+
+<dom-module id="how-it-works-section">
+    <!-- Import Shared Stylesheet -->
+    <link rel="import" type="css" href="style.css">
+    <template>
+        <style>
+            #hiw-title {
+                background-image: url("https://res.cloudinary.com/ut-aquaponics/image/upload/v1486231657/How_It_Works-min_uyd2ap.jpg");
+                height: 55vh;
+                text-align: center;
+                font-size: 7vh;
+                color: white;
+                font-family: 'Roboto';
+                text-shadow: 3px 3px #263238;
+                font-weight: 300;
+                background-size: cover;
+                display: flex;
+                vertical-align: middle;
+                flex-direction: column;
+                justify-content: center;
+            }
+            #hiw-pg {
+                margin-top: 8vh;
+            }
+        </style>
+        <div id="hiw-title" class="section-title">How It Works</div>
+        <div id="hiw-pg" class="section-paragraph">
+            <p>
+                Fish in a tank produce waste, which is high in ammonia, and very toxic to fish. However, the waste water
+                is pumped from the fish tanks, through a small filter, and into the growbed. In the growbed bacteria
+                convert the ammonia into nitrite, followed by another strain of bacteria which convert the nitrites into
+                nitrates.
+                <sup id="how-it-works-citation-1">3</sup>
+                The nitrates are taken up by the plants as fertilizer. This process, meanwhile, cleans the water from the
+                harmful ammonia compounds for the fish and the clean water is returned to the fish tanks.
+                <sup id="how-it-works-citation-2">
+                    <a href="http://www.backyardaquaponics.com/guide-to-aquaponics/what-is-aquaponics/">2</a>
+                </sup>
+                This completes a full cycle of water through the system. The chemical balance of the system is a
+                little tricky to get started, getting the pH levels balanced and the dissolved oxygen levels high enough
+                for the fish to survive are probably the most challenging aspects of aquaponics. Several other problems
+                can also occur such as algae growth, lack of essential bacteria, and swings in temperature or
+                sunlight
+                <sup id="how-it-works-citation-3"><a
+                        href="https://en.wikipedia.org/wiki/Aquaponics">4</a></sup>
+                . However, once stabilized, the system can theoretically run forever with the necessary inputs.
+            </p>
+        </div>
+        <paper-tooltip for="how-it-works-citation-1" position="top" animationDelay="0">
+            Mullins, Christopher, Brian Nerrie, and Todd D. Sink. "Principles of Small-Scale
+            Aquaponics." Southern Regional Aquaculture Center. N.p., Sept. 2015. Web. 10 July 2016.
+        </paper-tooltip>
+        <paper-tooltip for="how-it-works-citation-2" position="top" animationDelay="0">
+            "What Is Aquaponics?" Backyard Aquaponics. N.p., 2012. Web. 15 July 2016.
+        </paper-tooltip>
+        <paper-tooltip for="how-it-works-citation-3" position="top" animationDelay="0">
+            "Aquaponics." Wikipedia. Wikimedia Foundation, July 2016. Web. 10 July 2016.
+        </paper-tooltip>
+    </template>
+    <script>
+        Polymer({
+            is: "how-it-works-section"
+        })
+    </script>
+</dom-module>

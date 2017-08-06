@@ -1,0 +1,44 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="contact-us-section">
+    <!-- Import Shared Stylesheet -->
+    <link rel="import" type="css" href="style.css">
+    <template>
+        <style>
+            #mail {
+                padding: 5px;
+                margin-top: 10px;
+                margin-right: 10px;
+                float: right;
+                border-radius: 50%;
+                background-color: rgba(0, 191, 165, 0.16);
+                color: white;
+            }
+
+            #mail:hover {
+                background-color: #00BFA5;
+            }
+
+            #copyright {
+                text-align: center;
+                padding: 30px;
+                color: white;
+            }
+
+        </style>
+        <a  id="mail" href="mailto:meganfitch@utexas.edu">
+            <paper-icon-button icon="mail"></paper-icon-button>
+        </a>
+        <div id="copyright">© 2017 UT Aquaponics.</div>
+    </template>
+    <script>
+        Polymer({
+            is: "contact-us-section"
+        })
+    </script>
+</dom-module>

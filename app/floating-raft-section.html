@@ -1,0 +1,52 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+
+<dom-module id="floating-raft-section">
+    <!-- Import Shared Stylesheet -->
+    <link rel="import" type="css" href="style.css">
+    <template>
+        <style>
+            p {
+                margin-left: 5vw;
+                margin-right: 5vw;
+            }
+            img {
+                width: 100%;
+                max-height: 100vh;
+                margin-right: 10vw;
+                height: 75vh;
+            }
+        </style>
+        <img src="https://res.cloudinary.com/ut-aquaponics/image/upload/v1486231658/Floating_Raft-min_b1p0um.jpg">
+        <p>
+            The floating raft system is a Deep Water Culture system
+            <sup id="floating-raft-citation-1">1</sup>
+            in which a flat raft floats in a constantly flooded growbed while supporting plants a couple inches above
+            the water in net pots.  The rafts can be made of corrugated plastic board, XPS foam, EPS foam, or any other
+            sturdy nontoxic material that can float on water.
+            <sup id=floating-raft-citation-2>2</sup>
+            Having the upper part of the roots exposed to the air allows greater intake of oxygen.  Similarly, having
+            the lower part of the roots constantly submerged in nutrient-rich growbed water allows for a steady supply
+            of nutrients to the plant
+            <sup id="floating-raft-citation-3">3</sup>
+            .
+        </p>
+        <paper-tooltip for="floating-raft-citation-1" position="top" animationDelay="0">
+            Stout, Meg. The Complete Idiot's Guide to Aquaponic Gardening. Indianapolis, IN: Alpha, 2013. Print.
+        </paper-tooltip>
+        <paper-tooltip for="floating-raft-citation-2" position="top" animationDelay="0">
+            Stout, Meg. The Complete Idiot's Guide to Aquaponic Gardening. Indianapolis, IN: Alpha, 2013. Print.
+        </paper-tooltip>
+        <paper-tooltip for="floating-raft-citation-3" position="top" animationDelay="0">
+            "Deep Water Culture." Wikipedia. Wikimedia Foundation, n.d. Web. 12 July 2016.
+        </paper-tooltip>
+    </template>
+    <script>
+        Polymer({
+            is: 'floating-raft-section'
+        });
+    </script>
+</dom-module>

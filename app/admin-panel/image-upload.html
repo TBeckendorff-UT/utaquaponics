@@ -1,0 +1,63 @@
+<!-- Import Polymer -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+
+<dom-module id="image-upload">
+    <template>
+        <style is="custom-style">
+            :host {
+                --paper-card-header: {
+                    height: 125px;
+                }
+            }
+
+            #card {
+                margin-top: 5vh;
+                margin-left: 25%;
+                margin-right: 25%;
+            }
+
+            #submit {
+                margin-left: 40vw;
+            }
+        </style>
+        <paper-card heading="Capture the Moment!" id="card" image="../../public/images/media/congruent_pentagon.png">
+            <div class="card-content">
+                <form is="iron-form" id="upload-image-form" method="post" action="/api/images"
+                      on-iron-form-response="imageUploadResponse">
+                    <paper-input id="tagsInput" label="tags" name="tags" required auto-validate></paper-input>
+                    <paper-input id="fileInput" label="file" name="file" required auto-validate type="file"></paper-input>
+                    <h5>Semester</h5>
+                    <paper-radio-group id="semester" attr-for-selected="name">
+                        <paper-radio-button name="spring">Spring</paper-radio-button>
+                        <paper-radio-button name="fall">Fall</paper-radio-button>
+                    </paper-radio-group>
+                    <h5>System</h5>
+                    <paper-radio-group id="system" attr-for-selected="name">
+                        <paper-radio-button name="media bed">Media Bed</paper-radio-button>
+                        <paper-radio-button name="floating raft">Floating Raft</paper-radio-button>
+                    </paper-radio-group>
+                    <h5>Year</h5>
+                    <paper-slider id="yearSlider" min="2016" max="2017" value="2016" step="1" snaps="true" name="year" pin></paper-slider>
+                    <paper-button id="submit" on-click="submitMediaUpload">submit</paper-button>
+                </form>
+            </div>
+            <div class="card-actions"></div>
+        </paper-card>
+
+    </template>
+    <script>
+        Polymer({
+            is: "image-upload"
+        })
+    </script>
+</dom-module>
+

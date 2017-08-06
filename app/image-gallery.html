@@ -1,0 +1,148 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="image-gallery">
+    <template>
+        <style>
+            #image-gallery-container {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+            }
+
+            #focused {
+                align-items: center;
+                flex-direction: column;
+            }
+            #focused-img {
+                max-width: 100%;
+            }
+
+            #focused-footer {
+                width:100%;
+                padding-right: 0;
+                padding-left: 0;
+                display: flex;
+                justify-content: center;
+            }
+
+            #focused-header {
+                width: 100%;
+                padding-right: 0;
+                padding-left: 0;
+            }
+
+            #links {
+                margin-bottom: 10px;
+            }
+
+            #links img {
+                margin-left: 7px;
+                margin-right: 7px;
+            }
+
+        </style>
+        <div id="image-gallery-container">
+            <paper-dialog id="focused">
+                <paper-material id="focused-header">
+                    <h4 id="focused-title"></h4>
+                </paper-material>
+                <div id="focused-content">
+                    <img id="focused-img">
+                </div>
+                <div id="focused-footer">
+                    <paper-button id="previous" raised on-click="prev">Previous</paper-button>
+                    <paper-button id="next" raised on-click="next">Next</paper-button>
+                </div>
+            </paper-dialog>
+            <div id="links"></div>
+        </div>
+    </template>
+    <script>
+        function getThumbnailURL(url) {
+            var thumbnailParam = 'w_100,h_100,c_thumb,g_auto';
+            return url.substring(0, url.lastIndexOf('/') + 1) + thumbnailParam + url.substring(url.lastIndexOf('/'));
+        }
+
+        Polymer({
+            is: 'image-gallery',
+            ready: function () {
+                // create a counter for number of links
+                numLinks = 0;
+
+                // add a focus listener for each image,
+                // then append it to the container
+                Polymer.dom(this).observeNodes(function(e) {
+                    // check to see if event is for node added
+                    if (e.addedNodes.length > 0) {
+                        var image = e.addedNodes[0];
+                        numLinks++;
+                        image.setAttribute('data-original', image.src);
+                        image.setAttribute('src', getThumbnailURL(image.src));
+                        image.setAttribute('data-index', numLinks);
+                        image.addEventListener('click', this.focus);
+                        container.appendChild(image);
+                    }
+                });
+                var container = this.$.links;
+            },
+            next: function(e) {
+                var links = e.target.parentNode.parentNode.parentNode.querySelector('#links');
+                // increment the current index
+                currentIndex = currentIndex + 1;
+                // if the index reaches the beyond image, we wrap around
+                if (currentIndex == (numLinks + 1)) {
+                    currentIndex = 1;
+                }
+                // update the current image by searching for an image element
+                // with a matching data-index attribute
+                var currentImage = links.querySelectorAll("[data-index=" + "'"+ currentIndex + "']");
+                // set the image url to data-original attribute
+                imageURL = currentImage[0].getAttribute('data-original');
+                // locate the focusedContent and focusedImage elements
+                var focusedContent = Polymer.dom(this.shadowRoot).querySelector('#focused-content');
+                var focusedImage = focusedContent.getElementsByTagName('img')[0];
+                // set the src of focusedImage to the imageURL
+                focusedImage.setAttribute("src", imageURL);
+            },
+            prev: function(e) {
+                var links = e.target.parentNode.parentNode.parentNode.querySelector('#links');
+                // decrement the current index
+                currentIndex = currentIndex - 1;
+                // if the index reaches beyond the image, we wrap around
+                if (currentIndex == 0) {
+                    currentIndex = numLinks;
+                }
+                // update the current image by searching for an image element
+                // with a matching data-index attribute
+                var currentImage = links.querySelectorAll("[data-index=" + "'"+ currentIndex + "']");
+                // set the image url to data-original attribute
+                imageURL = currentImage[0].getAttribute('data-original');
+                // locate the focusedContent and focusedImage elements
+                var focusedContent = Polymer.dom(this.shadowRoot).querySelector('#focused-content');
+                var focusedImage = focusedContent.getElementsByTagName('img')[0];
+                // set the src of focusedImage to the imageURL
+                focusedImage.setAttribute("src", imageURL);
+            },
+            focus: function (e, detail, sender) {
+                e.preventDefault();
+                // locate the links container
+                var links = e.target.parentNode;
+                // count the number of links in the links container
+                numLinks = links.getElementsByTagName('img').length;
+                // the imageURL is the data-original attribute
+                var imageURL = e.target.getAttribute('data-original');
+                // locate the focusedContent and focusedImage elements
+                var focusedContent = links.parentNode.querySelector('#focused-content');
+                var focusedImage = focusedContent.getElementsByTagName('img')[0];
+                // set the src of the focusedImage to the imageURL
+                focusedImage.setAttribute("src", imageURL);
+                // set the focused element display to block
+                var focused = focusedContent.parentNode;
+                focused.style.display = 'inline-flex';
+                // set the currentIndex to the data-atrribute
+                currentIndex = parseInt(e.target.getAttribute('data-index'));
+            }
+        });
+    </script>
+</dom-module>

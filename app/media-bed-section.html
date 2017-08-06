@@ -1,0 +1,43 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Import Polymer Web Components -->
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+
+<dom-module id="media-bed-section">
+    <!-- Import Shared Stylesheet -->
+    <link rel="import" type="css" href="style.css">
+    <style>
+        p {
+            margin-left: 5vw;
+            margin-right: 5vw;
+        }
+        img {
+            width: 100%;
+            max-height: 100vh;
+            margin-right: 10vw;
+            height: 75vh;
+        }
+    </style>
+    <template>
+        <img src="https://res.cloudinary.com/ut-aquaponics/image/upload/v1486231658/Media_Bed-min_ab7wzm.jpg">
+        <p>
+            The media bed system contains a type of media in the growbed, generally a variety of expanded clay
+            or shale
+            <sup id="media-bed-citation-1">
+                <a href="http://www.backyardaquaponics.com/guide-to-aquaponics/what-is-aquaponics/">2</a>
+            </sup>
+            . The media is gravel-sized and gives the plants a stable material to place roots in. The media also
+            provides a place for the nitrification bacteria to live, and worms can be added in the dry layers of
+            media for increased nutrient production.
+        </p>
+        <paper-tooltip for="media-bed-citation-1" position="top" animationDelay="0">
+            "What Is Aquaponics?" Backyard Aquaponics. N.p., 2012. Web. 15 July 2016.
+        </paper-tooltip>
+    </template>
+    <script>
+        Polymer({
+            is: 'media-bed-section'
+        });
+    </script>
+</dom-module>
